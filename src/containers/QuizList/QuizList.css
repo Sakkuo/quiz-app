@@ -1,0 +1,70 @@
+.QuizList {
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    flex-grow: 1;
+    width: 100%;
+    background: linear-gradient(90deg, #f36735 0%, #e9697a 37%, #cf2e69 100%);
+    color: #fff;
+}
+
+
+
+
+.QuizList h1 {
+    margin-bottom: 40px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+
+.QuizList ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    list-style-type: none;
+}
+
+.QuizList li {
+    border: 1px solid #fff;
+    border-radius: 8px;
+    list-style-type: none;
+    margin-bottom: 15px;
+    min-width: 220px;
+}
+
+.QuizList li a:hover{
+    color: #363f54
+}
+
+.QuizList li a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.QuizList li:hover {
+    background: rgba(255, 255, 255, 0.274);
+    transition: background 300ms ease-in-out;
+}
+
+.QuizList a:last-child div li {
+    margin-bottom: 30px;
+}
+
+/* .buttonDelete {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    background: red;
+    color: white;
+    border: 1px solid white;
+    border-radius: 10px;
+    max-height: 20px;
+    max-width: 20px;
+    margin: 12px 8px 20px 0;
+    text-align: center;
+    color: #fff;
+    padding: 10px;
+} */

@@ -1,0 +1,42 @@
+
+.Auth {
+    display: flex;
+    justify-content: center;
+    padding-top: 100px;
+    flex-grow: 1;
+    width: 100%;
+    background: linear-gradient(270deg, #1048b1 0%, #27a6e0 100%);
+}
+
+.Auth > div {
+    width: 100%;
+    max-width: 340px;
+    padding: 0 20px;
+}
+
+.Auth h1 {
+    color: #fff;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+}
+
+.AuthForm {
+    background: #eee;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .5);
+    padding: 15px 15px 15px 15px;
+    border-radius: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.5px;
+}
+
+.AuthForm input {
+    border-radius: 5px;
+}
+
+
+.btns {
+    display: flex;
+    justify-content: space-between;
+}
