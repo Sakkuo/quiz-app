@@ -6,6 +6,7 @@
     width: 100%;
     background: linear-gradient(90deg, #f36735 0%, #e9697a 37%, #cf2e69 100%);
     color: #fff;
+    font-family: sans-serif;
 }
 
 
@@ -27,9 +28,7 @@
 
 .QuizList li {
     border: 1px solid #fff;
-    border-radius: 8px;
     list-style-type: none;
-    margin-bottom: 15px;
     min-width: 220px;
 }
 
@@ -49,8 +48,46 @@
     transition: background 300ms ease-in-out;
 }
 
+.notAuth {
+    text-align: center;
+    padding: 7px 0;
+    border-radius: 8px;
+}
+.isAuth {
+    text-align: center;
+    padding: 7px 0;
+    border-radius: 8px 0 0 8px;
+}
+.liTest {
+    text-align: center;
+    padding: 7px 0;
+}
+
+
+
+.delete {
+    border: 1px solid white;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    padding: 0 9px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    box-sizing: border-box;
+    background-image: none; 
+    background: transparent;
+    color: white;
+    font-size: 18px;
+}
+
+.delete:hover {
+    background: rgba(255, 255, 255, 0.274);
+    transition: background 300ms ease-in-out;
+}
+
+
 .QuizList a:last-child div li {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
 }
 
 /* .buttonDelete {

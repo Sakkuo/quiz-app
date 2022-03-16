@@ -5,6 +5,7 @@ import Input from "../../components/UI/Input/Input";
 import { connect } from "react-redux";
 import { auth } from "../../store/actions/auth";
 
+
 function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
@@ -129,6 +130,16 @@ class Auth extends React.Component {
             )
         })
     }
+
+
+    wrongPassMessage = () => {
+        return (
+            <div className={classes.wrongPasDiv}>
+                Wrong password/email
+            </div>
+        )
+    }
+
     
     render () {
         return (
@@ -139,30 +150,43 @@ class Auth extends React.Component {
                     <form className={classes.AuthForm} onSubmit={this.submitHandler}>
 
                         { this.renderInputs() }
-                        
+                        {!this.props.authSuccess 
+                        ? this.wrongPassMessage()
+                        : null
+                        }
                         <div className={classes.btns}>
-                        <Button 
-                            type='success'
-                            onClick={this.loginHandler}
-                            disabled={!this.state.isFormValid}
-                            >Sign in</Button>
-                            
-
                             <Button 
-                            type='primary'
-                            onClick={this.registerHandler}
-                            disabled={!this.state.isFormValid}
+                                type='success'
+                                onClick={ this.loginHandler}
+                                disabled={!this.state.isFormValid}
+                            >Sign in</Button>
+                                
+                            <Button 
+                                type='primary'
+                                onClick={this.registerHandler}
+                                disabled={!this.state.isFormValid}
                             >Sign Up</Button>
                         </div>
+
+
                     </form>
                 </div>
             </div>
         )
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        authSuccess: state.auth.authSuccess
+    }
+}
+
+
 function mapDispatchToProps(dispatch) {
     return {
         auth: (email, password, isLogin) => dispatch(auth(email, password, isLogin))
     }
 }
-export default connect(null, mapDispatchToProps) (Auth)
+export default connect(mapStateToProps, mapDispatchToProps) (Auth)

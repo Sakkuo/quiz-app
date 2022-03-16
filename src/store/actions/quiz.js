@@ -15,16 +15,14 @@ export function fetchQuizes() {
         dispatch(fetchQuizesStart())
         try {
             const response = await axios.get('/quizes.json')
-
             const quizes = []
-            Object.keys(response.data).forEach((key, index) => {
+            Object.keys(response.data).forEach((key, i) => {
+                const nameQuiz = Object.values(response.data)[i][0].name
                 quizes.push({
                     id: key,
-                    name: `Test №${index+1}`
+                    name: nameQuiz
                 })
             })
-            
-
             dispatch(fetchQuizesSuccess(quizes))
         } catch (e) {
             dispatch(fetchQuizesError(e))
@@ -38,13 +36,23 @@ export function fetchQuizById(quizId) {
         try {
             const response = await axios.get(`/quizes/${quizId}.json`)
             const quiz = response.data
-
+            quiz.shift()
             dispatch(fetchQuizSuccess(quiz))
         } catch (e) {
             dispatch(fetchQuizesError(e))
         }
     }
 }
+
+export function deleteQuiz(id) {
+    return async dispatch => {
+        axios.delete(`/quizes/${id}.json`)
+        setTimeout(() => {
+            dispatch(fetchQuizes())
+        }, 400)
+    }
+}
+
 
 export function fetchQuizSuccess(quiz) {
     return {
@@ -73,17 +81,12 @@ export function fetchQuizesError(e) {
     }
 }
 
+
 export function quizSetState(answerState, results) {
     return {
         type: QUIZ_SET_STATE,
         answerState,
         results
-    }
-}
-
-export function finishQuiz() {
-    return {
-        type: FINISH_QUIZ
     }
 }
 
@@ -94,11 +97,19 @@ export function quizNextQuestion(number) {
     }
 }
 
+export function finishQuiz() {
+    return {
+        type: FINISH_QUIZ
+    }
+}
+
+
 export function retryQuiz() {
     return {
         type: RETRY_QUIZ
     }
 }
+
 
 export function quizAnswerClick(answerId) {
     return (dispatch, getState) => {

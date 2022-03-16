@@ -3,46 +3,63 @@ import { NavLink } from "react-router-dom";
 import classes from '../QuizList/QuizList.css'
 import Loader from "../../components/UI/Loader/Loader";
 import { connect } from "react-redux";
-import { fetchQuizes } from "../../store/actions/quiz";
+import { fetchQuizes, deleteQuiz } from "../../store/actions/quiz";
 
 class QuizList extends React.Component {
+
 
     renderQuizes() {
         return this.props.quizes.map((quiz) => {
             return (
-                <NavLink 
-                to={'/quiz/' + quiz.id}
+                <div 
                 key={quiz.id}
-                style={{
-                    textDecoration: 'none',
-                    color: 'white',
-                    fontSize: '18px',
-                }} 
+                style={{ 
+                    display: 'flex', 
+                    marginBottom: '20px'
+                }}
                 >
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'center'
-                    }}>
-                    <li
+                    <NavLink 
+                    to={'/quiz/' + quiz.id}
+                    key={quiz.id}
                     style={{
-                    textAlign: 'center',
-                    padding: '7px 0'
-                    }}
+                        textDecoration: 'none',
+                        color: 'white',
+                        fontSize: '18px',
+                    }} 
                     >
-                    {quiz.name}
-                    </li>
-                    </div>
-                </NavLink>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center'
+                        }}>
+                            <li
+                            className={this.props.isAuthenticated 
+                                ? classes.isAuth
+                                : classes.notAuth
+                            }
+                            >
+                            {quiz.name}
+                            </li>
+                        </div>
+                    </NavLink>
+                    {this.props.isAuthenticated 
+                    ? <button
+                    onClick={() => this.props.deleteQuiz(quiz.id)} 
+                    className={classes.delete}
+                    >
+                        X
+                    </button> 
+                    : null}
+                </div>
             )
         })
     }
 
-    componentDidMount() {
 
-        this.props.fetchQuizes()
     
+    componentDidMount() {
+        this.props.fetchQuizes()
     }
-
+    
     render () {
         return (
             <div className={classes.QuizList}>
@@ -55,6 +72,7 @@ class QuizList extends React.Component {
                     :   <ul>
                             { this.renderQuizes() }
                         </ul>
+                    
                     }
                     
                 </div>
@@ -66,13 +84,15 @@ class QuizList extends React.Component {
 function mapStateToProps(state) {
     return {
         quizes: state.quiz.quizes,
-        loading: state.quiz.loading
+        loading: state.quiz.loading,
+        nameQ: state.create.name
     }
 }
 
 function mapDispatchToProps (dispatch) {
     return {
-        fetchQuizes: () => dispatch(fetchQuizes())
+        fetchQuizes: () => dispatch(fetchQuizes()),
+        deleteQuiz: id => dispatch(deleteQuiz(id))
     }
 }
 

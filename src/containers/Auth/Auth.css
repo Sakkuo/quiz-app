@@ -14,6 +14,14 @@
     padding: 0 20px;
 }
 
+.Auth .wrongPasDiv {
+    margin: -10px 0 10px 0;
+    font-size: 14px;
+    text-align: left;
+    color: red;
+    font-weight: 700;
+}
+
 .Auth h1 {
     color: #fff;
     text-align: center;

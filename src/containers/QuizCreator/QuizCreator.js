@@ -6,7 +6,7 @@ import Input from '../../components/UI/Input/Input'
 import Auxiliary from "../../hoc/Auxiliary/Auxiliary";
 import Select from "../../components/UI/Select/Select";
 import { connect } from "react-redux";
-import { createQuizQuestion, finishCreateQuiz } from "../../store/actions/create";
+import { createQuizQuestion, finishCreateName, finishCreateQuiz, nameQuizHandle } from "../../store/actions/create";
 
 function createOptionControl(number) {
     return createControl({
@@ -34,7 +34,8 @@ class QuizCreator extends React.Component {
     state= {
         isFormValid: false,
         rightAnswerId: 1,
-        formControls: createFormControls()
+        formControls: createFormControls(),
+        isCreateComplited: false
     }
 
     submitHandler = event => {
@@ -59,6 +60,7 @@ class QuizCreator extends React.Component {
         }
         this.props.createQuizQuestion(questionItem)
 
+
         this.setState({
             isFormValid: false,
             rightAnswerId: 1,
@@ -69,15 +71,18 @@ class QuizCreator extends React.Component {
     createQuizHandler =  event => {
         event.preventDefault()
 
-            
             this.setState({
                 isFormValid: false,
                 rightAnswerId: 1,
-                formControls: createFormControls()
+                formControls: createFormControls(),
+                isCreateComplited: false
             })
-
+            if (this.props.name) {
+                this.props.finishCreateName(this.props.name)
+            } else {
+                this.props.finishCreateName('Test')
+            }
             this.props.finishCreateQuiz()
-
     }
 
     changeHandler = (value, controlName) => {
@@ -119,11 +124,32 @@ class QuizCreator extends React.Component {
     }
 
     selectChangeHandler = event => {
-        console.log(+event.target.value)
         this.setState({
             rightAnswerId: +event.target.value
         })
     }
+
+    addName = () => {
+        return (
+        <div className={classes.divName}>
+            Enter the name of the test
+            <input 
+            defaultValue="Test"
+            className={classes.inputName}
+            type='text'
+            placeholder='Enter the test name'
+            autoFocus
+            onChange={
+                (e) => this.props.nameQuizHandle(e.currentTarget.value)
+            }
+            />
+        </div>
+        )
+    }
+
+
+
+
 
     render () {
         const select = <Select 
@@ -157,14 +183,29 @@ class QuizCreator extends React.Component {
                                 Add a question
                             </Button>
 
+
+                            {!this.state.isCreateComplited
+                            ? 
+                            <Button
+                            type='success'
+                            // onClick={this.createQuizHandler}
+                            onClick={() => this.setState({
+                                isCreateComplited: true
+                            })}
+                            >
+                                Create name
+                            </Button>
+                            :
                             <Button
                             type='success'
                             onClick={this.createQuizHandler}
                             disabled={this.props.quiz.length === 0}
                             >
                                 Create test
-                        </Button>
+                            </Button>
+                            }
                         </div>
+                            {this.state.isCreateComplited ? this.addName() : null}
                     </form>
                 </div>
             </div>
@@ -175,7 +216,8 @@ class QuizCreator extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        quiz: state.create.quiz
+        quiz: state.create.quiz, 
+        name: state.create.name
     }
 }
 
@@ -183,6 +225,8 @@ function mapDispatchToProps(dispatch) {
     return {
         createQuizQuestion: item => dispatch(createQuizQuestion(item)),
         finishCreateQuiz: () => dispatch(finishCreateQuiz()),
+        nameQuizHandle: (name) => dispatch(nameQuizHandle(name)),
+        finishCreateName: name => dispatch(finishCreateName(name))
     }
 }
 

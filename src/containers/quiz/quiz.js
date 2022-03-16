@@ -10,7 +10,6 @@ import { fetchQuizById, quizAnswerClick, retryQuiz } from "../../store/actions/q
 class Quiz extends Component {
 
     componentDidMount() {
-        console.log(this.props.router.params.id)
         this.props.fetchQuizById(this.props.router.params.id)
     }
 
@@ -64,7 +63,7 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchQuizById: id => dispatch(fetchQuizById(id)),
         quizAnswerClick: answerId => dispatch(quizAnswerClick(answerId)),
-        retryQuiz: () => dispatch(retryQuiz())
+        retryQuiz: () => dispatch(retryQuiz()),
     }
 }
 

@@ -42,7 +42,7 @@ class Layout extends Component {
 
 
                 <main>
-                    {this.props.children}
+                    {this.props.children}                    
                 </main>
             </div>
         )

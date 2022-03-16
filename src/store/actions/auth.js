@@ -1,5 +1,5 @@
 import axios from "axios"
-import { AUTH_LOGOUT, AUTH_SUCCESS } from "./actionTypes"
+import { AUTH_LOGOUT, AUTH_SUCCESS, WRONG_PAS_EMAIL } from "./actionTypes"
 
 export function auth(email, password, isLogin) {
     return async dispatch => {
@@ -14,18 +14,33 @@ export function auth(email, password, isLogin) {
             url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAR4GELKItMX86I5aiHTWnq8n3ly3ZhWT0'
         }
 
-        const response = await axios.post(url, authData)
-        const data = response.data
-        const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000)
+        try {
+            const response = await axios.post(url, authData)
 
-        localStorage.setItem('token', data.idToken)
-        localStorage.setItem('userId', data.localId)
-        localStorage.setItem('expirationDate', expirationDate)
-
-        dispatch(authSuccess(data.idToken))
-        dispatch(autoLogout(data.expiresIn))
+            const data = response.data
+            const expirationDate = new Date(new Date().getTime() + data.expiresIn * 1000)
+            
+            
+            localStorage.setItem('token', data.idToken)
+            localStorage.setItem('userId', data.localId)
+            localStorage.setItem('expirationDate', expirationDate)
+            
+            dispatch(authSuccess(data.idToken))
+            dispatch(autoLogout(data.expiresIn))     
+        } catch (err) {
+            console.log(err + '1111')
+            dispatch(wrongPasEmail())
+        }
     }
 }
+
+export function wrongPasEmail () {
+    return {
+        type: WRONG_PAS_EMAIL
+    }
+}
+
+
 
 export function autoLogout(time) {
     return dispatch => {
